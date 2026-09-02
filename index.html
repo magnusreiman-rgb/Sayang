@@ -231,7 +231,6 @@
             box-shadow: 0 15px 35px var(--shadow);
             cursor: pointer;
             z-index: 5;
-            /* Püsib täpselt keskel */
             left: 50%;
             transform: translateX(-50%);
             transition: all 0.5s ease;
@@ -281,7 +280,7 @@
         .card-container {
             position: absolute;
             left: 50%;
-            margin-left: -100px; /* poole kaardi laiusest, et oleks tsentris */
+            margin-left: -100px; /* poole kaardi laiusest, et suletud kaart oleks tsentris */
             width: 200px;
             height: 280px;
             z-index: 3;
@@ -297,6 +296,11 @@
             pointer-events: auto;
             z-index: 20;
             transform: translateY(-50px) rotate(0deg) scale(1);
+        }
+
+        /* AVATUD KAART: Nihe 100px paremale (translateX(100px)), et murdekoht tuleks keskele */
+        .card-container.extracted.open-book {
+            transform: translateY(-50px) translateX(100px) rotate(0deg) scale(1);
         }
 
         .folding-card {
@@ -444,9 +448,9 @@
                 margin-left: -80px; 
             }
 
-            /* Mobiilis teeme avatud kaardi kergelt väiksemaks, et ei läheks servadest üle */
+            /* Mobiilis nihutame poole kaardi laiusest ehk 80px paremale */
             .card-container.extracted.open-book {
-                transform: translateY(-40px) scale(0.85);
+                transform: translateY(-40px) translateX(80px) rotate(0deg) scale(0.85);
             }
 
             .letter-text { font-size: 1.05rem; line-height: 1.25rem; }
