@@ -38,7 +38,7 @@
             color: var(--dark-red);
         }
 
-        /* Playeri konteiner paremas ülanurgas (ainult muusikanupp) */
+        /* Playeri konteiner paremas ülanurgas */
         .player-container {
             position: fixed;
             top: 20px;
@@ -46,7 +46,6 @@
             z-index: 1000;
         }
 
-        /* Music Player Button */
         .music-btn {
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(5px);
@@ -210,7 +209,7 @@
 
         .btn-primary:hover { transform: translateY(-2px) scale(1.03); }
 
-        /* SCREEN 3 - ÜMBRIK JA KAART */
+        /* SCREEN 3 - ÜMBRIK JA KAART (TSENTREERITUD) */
         .stage-area {
             position: relative;
             width: 100%;
@@ -232,12 +231,10 @@
             box-shadow: 0 15px 35px var(--shadow);
             cursor: pointer;
             z-index: 5;
-            transition: transform 0.6s ease;
-        }
-
-        /* Kui kaart on avatud raamatuna, liigutame ümbrikut vasakule, et avatud kaart jääks täpselt keskele */
-        .envelope-wrapper.has-open-book {
-            transform: translateX(-100px);
+            /* Püsib täpselt keskel */
+            left: 50%;
+            transform: translateX(-50%);
+            transition: all 0.5s ease;
         }
 
         .envelope-flap {
@@ -284,7 +281,7 @@
         .card-container {
             position: absolute;
             left: 50%;
-            margin-left: -100px;
+            margin-left: -100px; /* poole kaardi laiusest, et oleks tsentris */
             width: 200px;
             height: 280px;
             z-index: 3;
@@ -299,7 +296,7 @@
             opacity: 1;
             pointer-events: auto;
             z-index: 20;
-            transform: translateY(-50px) rotate(0deg) scale(1.05);
+            transform: translateY(-50px) rotate(0deg) scale(1);
         }
 
         .folding-card {
@@ -434,7 +431,7 @@
 
         .btn-secondary:hover { background: var(--primary-pink); color: white; }
 
-        /* MOBIILISEADETE KOHANDUSED */
+        /* MOBIILI KOHANDUSED */
         @media (max-width: 480px) {
             .stage-area { width: 100%; height: 420px; }
             .envelope-wrapper { width: 300px; height: 200px; }
@@ -447,12 +444,9 @@
                 margin-left: -80px; 
             }
 
-            .envelope-wrapper.has-open-book {
-                transform: translateX(-70px);
-            }
-
-            .card-container.extracted {
-                transform: translateY(-40px) rotate(0deg) scale(0.95);
+            /* Mobiilis teeme avatud kaardi kergelt väiksemaks, et ei läheks servadest üle */
+            .card-container.extracted.open-book {
+                transform: translateY(-40px) scale(0.85);
             }
 
             .letter-text { font-size: 1.05rem; line-height: 1.25rem; }
@@ -591,7 +585,6 @@
         const musicBtn = document.getElementById('musicBtn');
         const musicText = document.getElementById('musicText');
 
-        // Vaikimisi helitugevus 50%
         music.volume = 0.5;
 
         function startMusic() {
@@ -718,19 +711,16 @@
             if (envelopeOpened) {
                 playChime();
                 const cardCont = document.getElementById('cardContainer');
-                const env = document.getElementById('envelopeWrapper');
                 const banner = document.getElementById('instructionBanner');
 
                 cardBookOpened = !cardBookOpened;
                 
                 if (cardBookOpened) {
                     cardCont.classList.add('open-book');
-                    env.classList.add('has-open-book');
                     banner.innerText = "❤️ For you sayang! ❤️";
                     triggerConfetti();
                 } else {
                     cardCont.classList.remove('open-book');
-                    env.classList.remove('has-open-book');
                     banner.innerText = "✨ Click on the card to open it again!";
                 }
             }
@@ -740,13 +730,13 @@
             envelopeOpened = false;
             cardBookOpened = false;
             const env = document.getElementById('envelopeWrapper');
-            env.classList.remove('open', 'has-open-book');
+            env.classList.remove('open');
             document.getElementById('cardContainer').classList.remove('extracted', 'open-book');
             document.getElementById('instructionBanner').innerText = "💌 Click on the envelope to open it!";
             switchScreen('screen3', 'screen1');
         }
 
-        /* ILUTULESTIKU-STIILIS RINGIKUJULINE KONFETTI */
+        /* KONFETTI */
         const canvas = document.getElementById('confetti-canvas');
         const ctx = canvas.getContext('2d');
         let particles = [];
