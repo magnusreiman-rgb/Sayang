@@ -663,14 +663,12 @@
         }
 
         function openGift() {
-            playChime();
             startMusic();
             switchScreen('screen1', 'screen2');
             triggerConfetti();
         }
 
         function goToEnvelopeScreen() {
-            playChime();
             switchScreen('screen2', 'screen3');
         }
 
@@ -694,7 +692,6 @@
         function handleEnvelopeClick() {
             if (!envelopeOpened) {
                 envelopeOpened = true;
-                playChime();
                 const env = document.getElementById('envelopeWrapper');
                 const cardCont = document.getElementById('cardContainer');
                 const banner = document.getElementById('instructionBanner');
@@ -712,7 +709,6 @@
         function toggleFoldingCard(event) {
             event.stopPropagation();
             if (envelopeOpened) {
-                playChime();
                 const cardCont = document.getElementById('cardContainer');
                 const banner = document.getElementById('instructionBanner');
 
